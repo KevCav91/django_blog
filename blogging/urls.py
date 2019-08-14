@@ -1,6 +1,7 @@
 from django.urls import path
 from blogging.views import list_view
 from blogging.views import detail_view
+from blogging.views import add_post
 from blogging.feeds import LatestEntriesFeed
 
 urlpatterns = [
