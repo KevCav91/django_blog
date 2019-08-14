@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from blogging.models import Post
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from blogging.forms import PostForm
+import datetime
 
 
 def list_view(request):
@@ -31,3 +33,18 @@ def stub_view(request, *args, **kwargs):
         body += "Kwargs:\n"
         body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
     return HttpResponse(body, content_type="text/plain")
+
+
+def add_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            model_instance = form.save(commit=False)
+            model_instance.created_date = datetime.datetime.now()
+            model_instance.published_date = datetime.datetime.now()
+            model_instance.save()
+            return redirect('/')
+
+    else:
+        form = PostForm()
+        return render(request, "modelform.html", {'form': form})
