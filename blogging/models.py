@@ -1,6 +1,6 @@
 from django.db import models  # <-- This is already in the file
 from django.contrib.auth.models import User
-
+from django.contrib import admin
 
 class Post(models.Model):
     title = models.CharField(max_length=128)
